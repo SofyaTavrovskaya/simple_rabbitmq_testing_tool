@@ -1,0 +1,10 @@
+*.pyc
+*.log
+rabbit/
+.pytest_cache/
+__pycache__/
+tests.egg-info/
+dist/
+.idea/
+docker-compose.yml
+results/
