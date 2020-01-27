@@ -1,15 +1,15 @@
 import pika
 import pytest
-import os
 import configparser
 
 
 @pytest.fixture(scope="session")
-def connect_to_rabbit():
-    user_name = os.environ.get('RABBIT_USER')
-    password = os.environ.get('RABBIT_PASSWORD')
+def connect_to_rabbit(config_parser):
+    user_name = config_parser["user_name"]
+    password = config_parser["password"]
     credentials = pika.PlainCredentials(user_name, password)
-    parameters = pika.ConnectionParameters('172.17.0.2', 5672, '/', credentials)
+    parameters = pika.ConnectionParameters(host=config_parser["host"], port=int(config_parser["port"]),
+                                           virtual_host=config_parser["virtual_host"], credentials=credentials)
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.exchange_declare(exchange='test_exchange', exchange_type='topic')
@@ -24,9 +24,15 @@ def connect_to_rabbit():
 
 
 @pytest.fixture(scope="session")
-def messages_number():
+def config_parser():
     config = configparser.ConfigParser()
     config.read('./fixtures/config.ini')
-    number_of_messages = int(config['messages']['number_of_messages'])
-    yield number_of_messages
+    config_dict = {'user_name': config['credentials']['username'],
+                   'password': config['credentials']['password'],
+                   'messages': config['messages']['number_of_messages'],
+                   'host': config['credentials']['host'],
+                   'port': config['credentials']['port'],
+                   'virtual_host': config['credentials']['virtual_host']
+                   }
+    yield config_dict
 
