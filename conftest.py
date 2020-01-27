@@ -24,5 +24,3 @@ def messages_number():
     config.read('./fixtures/config.ini')
     number_of_messages = config['messages']['number_of_massages']
     return number_of_messages
-
-
