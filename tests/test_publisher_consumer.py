@@ -1,5 +1,7 @@
 import pika
 import pytest
+import logging
+
 
 
 @pytest.mark.usefixture('connect_to_rabbit', 'config_parser')
