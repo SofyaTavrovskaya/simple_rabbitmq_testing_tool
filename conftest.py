@@ -5,9 +5,7 @@ import configparser
 
 @pytest.fixture(scope="session")
 def connect_to_rabbit(config_parser):
-    user_name = config_parser["user_name"]
-    password = config_parser["password"]
-    credentials = pika.PlainCredentials(user_name, password)
+    credentials = pika.PlainCredentials(config_parser["user_name"], config_parser["password"])
     parameters = pika.ConnectionParameters(host=config_parser["host"], port=int(config_parser["port"]),
                                            virtual_host=config_parser["virtual_host"], credentials=credentials)
     connection = pika.BlockingConnection(parameters)
@@ -32,7 +30,8 @@ def config_parser():
                    'messages': config['messages']['number_of_messages'],
                    'host': config['credentials']['host'],
                    'port': config['credentials']['port'],
-                   'virtual_host': config['credentials']['virtual_host']
+                   'virtual_host': config['credentials']['virtual_host'],
+                   'messages_text': config['messages']['messages_text']
                    }
     yield config_dict
 

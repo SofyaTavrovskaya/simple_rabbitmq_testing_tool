@@ -5,13 +5,12 @@ import pytest
 @pytest.mark.usefixture('connect_to_rabbit', 'config_parser')
 def test_publisher(connect_to_rabbit, config_parser):
     channel = connect_to_rabbit
-    message = "Hello World!"
     channel.confirm_delivery()
     for i in range(int(config_parser["messages"])):
         channel.basic_publish(exchange='test_exchange', routing_key='direct.routing.key',
-                              body=message, properties=pika.BasicProperties(delivery_mode=2)
+                              body=config_parser["messages_text"], properties=pika.BasicProperties(delivery_mode=2)
                               )
-        print("Sent %r" % message)
+        print("Sent %r" % config_parser["messages_text"])
 
 
 @pytest.mark.usefixture('connect_to_rabbit', 'config_parser')
