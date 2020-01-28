@@ -3,6 +3,7 @@ Minimal tests for containerized RabbitMQ using pytest and Pika
 How to run:
 1. Install requirements to python venv or globally
 2. Run docker container with RabbitMQ:
+   
    $ docker run -d --hostname my-rabbit --name some-rabbit -p 8080:15672 rabbitmq:3-management
    You can then go to http://localhost:8080 or http://host-ip:8080 in a browser with the default username and password
     of guest / guest
