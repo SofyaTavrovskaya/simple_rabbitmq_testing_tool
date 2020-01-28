@@ -14,7 +14,8 @@ How to run:
 
 4. Run test:
 
-   $ pytest 
+   .. code :: python
+   pytest 
    
    It should run without errors
 
